@@ -1,0 +1,22 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./docker/python/
+      dockerfile: Dockerfile
+    tty: true
+    environment:
+      - DB_PATH=/home/db.sqlite3
+      - DJAGO_ENV=dev
+    volumes:
+      - .:/root/project
+  pg:
+    image: postgres:alpine
+    tty: true
+    environment:
+      POSTGRES_DB: hello_world
+      POSTGRES_USER: benchmarkdbuser
+      POSTGRES_PASSWORD: benchmarkdbpass
+      TZ: Asia/Tokyo
+    volumes:
+      - ./docker/postgres_entrypoint:/docker-entrypoint-initdb.d
